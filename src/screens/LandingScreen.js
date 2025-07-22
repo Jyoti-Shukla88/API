@@ -1,5 +1,5 @@
 // screens/LandingScreen.js
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -10,12 +10,17 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
-import * as Animatable from 'react-native-animatable'; // ✅ animation library
+import * as Animatable from 'react-native-animatable';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { FETCH_DATA_REQUEST } from '../redux/slices/dataSlice';
+import CustomButton from '../components/CustomButton';
 
 const CARD_WIDTH = Dimensions.get('window').width * 0.82;
+const WINDOW_WIDTH = Dimensions.get('window').width * 0.82;
+const WINDOW_HEIGHT = Dimensions.get('window').height * 0.82;
+
+const WATERMARK_IMAGE = require('../assets/placeholder/a273co1g-removebg-preview.png');
 
 const SCREEN_CONFIG = [
   {
@@ -23,18 +28,21 @@ const SCREEN_CONFIG = [
     screen: 'ReportScreen',
     text: 'World malaria report 2024',
     image: 'https://tse4.mm.bing.net/th/id/OIP.mR9-Gdc0XOf5TQ4Rm0g00AHaKf',
+    color: '#0F529D',
   },
   {
     key: 'guidelines',
     screen: 'GuidelinesScreen',
     text: 'WHO guidelines',
     image: 'https://tse4.mm.bing.net/th/id/OIP.Ms3z6L-wJi7s0s695Ce-ngHaKd',
+    color: '#ea6d14ff',
   },
   {
     key: 'terminology',
     screen: 'TerminologyScreen',
     text: 'WHO malaria terminology',
     image: 'https://iris.who.int/bitstream/handle/10665/349442/9789240038400-eng.pdf.jpg',
+    color: '#36cc8eff',
   },
 ];
 
@@ -42,6 +50,8 @@ export default function LandingScreen() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const { data, loading, error } = useSelector((state) => state.data);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const flatListRef = useRef();
 
   useEffect(() => {
     dispatch(FETCH_DATA_REQUEST());
@@ -56,7 +66,7 @@ export default function LandingScreen() {
       : SCREEN_CONFIG.map((conf) => ({
           ...conf,
           title: conf.text,
-          description: 'Tap to explore this section',
+          
         }));
 
   if (loading) {
@@ -77,10 +87,28 @@ export default function LandingScreen() {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: enrichedSections[0]?.color || '#0F529D' }}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: enrichedSections[activeIndex]?.color || '#0F529D' },
+      ]}
+    >
+    
+      <Image
+        source={WATERMARK_IMAGE}
+        style={styles.watermark}
+        resizeMode="contain"
+        pointerEvents="none"
+      />
+
       {/* Animated Header */}
-      <Animatable.Text animation="fadeInDown" delay={100} duration={800} style={styles.header}>
-        👩‍⚕️ WHO Malaria{'\n'}Toolkit
+      <Animatable.Text
+        animation="fadeInDown"
+        delay={100}
+        duration={800}
+        style={styles.header}
+      >
+        👩‍⚕️ WHO Malaria{'\n\t\t\t\t\t\t'}Toolkit
       </Animatable.Text>
 
       {/* Animated Lang Select */}
@@ -92,12 +120,19 @@ export default function LandingScreen() {
 
       {/* FlatList with animated cards */}
       <FlatList
+        ref={flatListRef}
         horizontal
         data={enrichedSections}
         keyExtractor={(item, idx) => item.key || idx.toString()}
         showsHorizontalScrollIndicator={false}
         snapToInterval={CARD_WIDTH + 24}
+        decelerationRate="fast"
         contentContainerStyle={{ paddingHorizontal: 16 }}
+        onMomentumScrollEnd={(event) => {
+          const offsetX = event.nativeEvent.contentOffset.x;
+          const index = Math.round(offsetX / (CARD_WIDTH + 24));
+          setActiveIndex(index);
+        }}
         ListEmptyComponent={
           <Text style={styles.emptyText}>No toolkit cards available.</Text>
         }
@@ -111,13 +146,12 @@ export default function LandingScreen() {
           >
             <Image source={{ uri: item.image }} style={styles.cardImage} />
             <Text style={styles.title}>{item.title || item.text}</Text>
-            <Text style={styles.desc}>{item.description || 'Tap to explore'}</Text>
-            <TouchableOpacity
-              style={[styles.btn, { backgroundColor: item.color || '#0F529D' }]}
-              onPress={() => navigation.navigate(item.screen)}
-            >
-              <Text style={styles.btnText}>Explore</Text>
-            </TouchableOpacity>
+            <Text style={styles.desc}>{item.description }</Text>
+            <CustomButton
+                title="Explore"
+                backgroundColor={item.color || '#0F529D'}
+                onPress={() => navigation.navigate(item.screen)}
+              />
           </Animatable.View>
         )}
       />
@@ -126,6 +160,10 @@ export default function LandingScreen() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    position: 'relative', // essential for absolute children like watermark
+  },
   header: {
     fontSize: 28,
     fontWeight: '700',
@@ -138,7 +176,7 @@ const styles = StyleSheet.create({
   langSelect: {
     backgroundColor: '#fff',
     alignSelf: 'flex-start',
-    marginLeft: 16,
+    marginLeft: 58,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 16,
@@ -150,7 +188,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginRight: 24,
     paddingVertical: 30,
-    paddingHorizontal: 24,
+    paddingHorizontal: 10,
     alignItems: 'center',
     backgroundColor: '#fff',
     elevation: 4,
@@ -158,6 +196,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowOffset: { width: 0, height: 3 },
     shadowRadius: 6,
+    marginBottom: 20,
   },
   cardImage: {
     width: 300,
@@ -167,10 +206,10 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   title: {
-    fontSize: 22,
+    fontSize: 40,
     fontWeight: 'bold',
     color: '#000',
-    textAlign: 'center',
+    textAlign: 'left',
     marginBottom: 10,
   },
   desc: {
@@ -179,13 +218,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 16,
   },
-  btn: {
+  /*btn: {
     paddingVertical: 10,
     paddingHorizontal: 100,
     borderRadius: 22,
     backgroundColor: '#0F529D',
     elevation: 2,
-  },
+  },*/
   btnText: {
     color: '#fff',
     fontWeight: '700',
@@ -203,5 +242,14 @@ const styles = StyleSheet.create({
     color: '#fff',
     textAlign: 'center',
     marginTop: 40,
+  },
+  watermark: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: WINDOW_WIDTH,   // exact screen width
+    height: WINDOW_HEIGHT, // exact screen height
+    opacity: 0.08,         // subtle watermark opacity
+    zIndex: -1,
   },
 });

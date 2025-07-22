@@ -44,7 +44,7 @@ export default function GuidelinesScreen() {
         <Text style={styles.backText}>← Back to Landing</Text>
       </TouchableOpacity>
 
-      <Text style={styles.heading}>WHO Guidelines</Text>
+      <Text style={styles.heading}>WHO {'\n'}Guidelines</Text>
 
       <FlatList
         data={guidelinesData}
