@@ -3,7 +3,7 @@ import { View, Text, FlatList, StyleSheet, TouchableOpacity, Linking,Alert, Plat
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
-export default function GuidelinesScreen() {
+export default function GuideLinesScreen() {
   const navigation = useNavigation();
   const { data, loading, error } = useSelector(state => state.data);
   const guidelinesData = data?.sections?.[1]?.items || [];

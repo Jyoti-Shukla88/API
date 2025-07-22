@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   Dimensions,
   Image,
+  ImageBackground,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { useNavigation } from '@react-navigation/native';
@@ -17,8 +18,8 @@ import { FETCH_DATA_REQUEST } from '../redux/slices/dataSlice';
 import CustomButton from '../components/CustomButton';
 
 const CARD_WIDTH = Dimensions.get('window').width * 0.82;
-const WINDOW_WIDTH = Dimensions.get('window').width * 0.82;
-const WINDOW_HEIGHT = Dimensions.get('window').height * 0.82;
+const WINDOW_WIDTH = Dimensions.get('window').width ;
+const WINDOW_HEIGHT = Dimensions.get('window').height;
 
 const WATERMARK_IMAGE = require('../assets/placeholder/a273co1g-removebg-preview.png');
 
@@ -32,7 +33,7 @@ const SCREEN_CONFIG = [
   },
   {
     key: 'guidelines',
-    screen: 'GuidelinesScreen',
+    screen: 'GuideLinesScreen',
     text: 'WHO guidelines',
     image: 'https://tse4.mm.bing.net/th/id/OIP.Ms3z6L-wJi7s0s695Ce-ngHaKd',
     color: '#ea6d14ff',
@@ -94,11 +95,10 @@ export default function LandingScreen() {
       ]}
     >
     
-      <Image
+      <ImageBackground
         source={WATERMARK_IMAGE}
-        style={styles.watermark}
-        resizeMode="contain"
-        pointerEvents="none"
+        style={[styles.watermark, { opacity: 0.5}]}
+        resizeMode="cover"
       />
 
       {/* Animated Header */}
@@ -162,7 +162,7 @@ export default function LandingScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    position: 'relative', // essential for absolute children like watermark
+   
   },
   header: {
     fontSize: 28,
@@ -244,12 +244,10 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   watermark: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
+    flex:1,
     width: WINDOW_WIDTH,   // exact screen width
-    height: WINDOW_HEIGHT, // exact screen height
-    opacity: 0.08,         // subtle watermark opacity
-    zIndex: -1,
+    height: WINDOW_HEIGHT,// exact screen height
+    alignSelf: 'flex-start'     
+    
   },
 });

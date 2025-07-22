@@ -6,7 +6,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { store, persistor } from './src/redux/store';
 import AppLoader from './src/AppLoader';
-import HomeScreen from './src/screens/HomeScreen';
 import LandingScreen from './src/screens/LandingScreen';
 import GuideLinesScreen from './src/screens/GuideLinesScreen'; // double-check file name: 'GuidelinesScreen' not 'GuideLinesScreen'
 import TerminologyScreen from './src/screens/TerminologyScreen';
@@ -25,7 +24,6 @@ export default function App() {
           <NavigationContainer>
             <Stack.Navigator initialRouteName="Landing" screenOptions={{ headerShown: true }}>
               <Stack.Screen name="Landing" component={LandingScreen} options={{ title: 'WHO Toolkit' }} />
-            { /* <Stack.Screen name="HomeScreen"        component={HomeScreen} options={{ title: 'Home' }} />*/}
               <Stack.Screen name="GuideLinesScreen"  component={GuideLinesScreen} options={{ title: 'Guidelines' }} />
               <Stack.Screen name="TerminologyScreen" component={TerminologyScreen} options={{ title: 'Terminology' }} />
               <Stack.Screen name="ReportScreen" component={ReportScreen} options={{ title: 'Malaria Report' }} />
