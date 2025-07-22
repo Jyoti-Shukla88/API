@@ -1,0 +1,22 @@
+{
+  "version": "offline",
+  "sections": [
+    {
+      "title": "World malaria report 2024",
+      "description": "Overview of global malaria statistics.",
+      "items": []
+    },
+    {
+      "title": "Guidelines",
+      "items": [
+        { "subtitle": "Test. Treat. Track.", "description": "2023 update", "link": "https://who.int/report.pdf" }
+      ]
+    },
+    {
+      "title": "Terminology",
+      "items": [
+        { "term": "Vector control", "definition": "Methods to kill mosquitoes." }
+      ]
+    }
+  ]
+}
