@@ -2,18 +2,18 @@
   "version": "offline",
   "sections": [
     {
-      "title": "World malaria {'\n'}report 2024",
+      "title": "World malaria report 2024",
       "description": "Overview of global malaria statistics.",
       "items": []
     },
     {
-      "title": "Guidelines",
+      "title":"WHO \nguidelines",
       "items": [
         { "subtitle": "Test. Treat. Track.", "description": "2023 update", "link": "https://who.int/report.pdf" }
       ]
     },
     {
-      "title": "Terminology",
+      "title": "WHO malaria terminology",
       "items": [
         { "term": "Vector control", "definition": "Methods to kill mosquitoes." }
       ]

@@ -102,14 +102,16 @@ export default function LandingScreen() {
       />
 
       {/* Animated Header */}
-      <Animatable.Text
+      <Animatable.View
         animation="fadeInDown"
         delay={100}
         duration={800}
         style={styles.header}
       >
-        👩‍⚕️ WHO Malaria{'\n\t\t\t\t\t\t'}Toolkit
-      </Animatable.Text>
+        <Text style={styles.headerLine1}>👩‍⚕️ WHO Malaria</Text>
+        <Text style={styles.headerLine2}>Toolkit</Text>
+       
+      </Animatable.View>
 
       {/* Animated Lang Select */}
       <Animatable.View animation="fadeInDown" delay={200} duration={800}>
@@ -125,7 +127,7 @@ export default function LandingScreen() {
         data={enrichedSections}
         keyExtractor={(item, idx) => item.key || idx.toString()}
         showsHorizontalScrollIndicator={false}
-        snapToInterval={CARD_WIDTH + 24}
+        snapToInterval={CARD_WIDTH + 24 }
         decelerationRate="fast"
         contentContainerStyle={{ paddingHorizontal: 16 }}
         onMomentumScrollEnd={(event) => {
@@ -146,7 +148,7 @@ export default function LandingScreen() {
           >
             <Image source={{ uri: item.image }} style={styles.cardImage} />
             <Text style={styles.title}>{item.title || item.text}</Text>
-            <Text style={styles.desc}>{item.description }</Text>
+            
             <CustomButton
                 title="Explore"
                 backgroundColor={item.color || '#0F529D'}
@@ -165,13 +167,11 @@ const styles = StyleSheet.create({
    
   },
   header: {
-    fontSize: 28,
-    fontWeight: '700',
-    color: '#fff',
+    
     marginTop: 50,
     marginLeft: 16,
     marginBottom: 8,
-    lineHeight: 36,
+    
   },
   langSelect: {
     backgroundColor: '#fff',
@@ -184,20 +184,21 @@ const styles = StyleSheet.create({
   },
   langText: { fontSize: 14, color: '#333', fontWeight: '500' },
   card: {
-    width: CARD_WIDTH,
-    borderRadius: 20,
-    marginRight: 24,
-    paddingVertical: 30,
-    paddingHorizontal: 10,
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    elevation: 4,
-    shadowColor: '#000',
-    shadowOpacity: 0.15,
-    shadowOffset: { width: 0, height: 3 },
-    shadowRadius: 6,
-    marginBottom: 20,
-  },
+  width: CARD_WIDTH,
+  borderRadius: 20,
+  marginRight: 24,
+  paddingVertical: 30,
+  paddingHorizontal: 10,
+  alignItems: 'flex-start',
+  backgroundColor: '#fff',
+  elevation: 4,
+  shadowColor: '#000',
+  shadowOpacity: 0.15,
+  shadowOffset: { width: 0, height: 3 },
+  shadowRadius: 6,
+  marginBottom: 25,
+},
+
   cardImage: {
     width: 300,
     height: 400,
@@ -206,11 +207,13 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   title: {
-    fontSize: 40,
+    fontSize:35,
     fontWeight: 'bold',
     color: '#000',
     textAlign: 'left',
     marginBottom: 10,
+    marginLeft: 0,
+    
   },
   desc: {
     fontSize: 14,
@@ -250,4 +253,17 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start'     
     
   },
+  headerLine1: {
+  fontSize: 28,
+  fontWeight: '700',
+  color: '#fff',
+  lineHeight: 36,
+},
+headerLine2: {
+  fontSize: 28,
+  fontWeight: '700',
+  color: '#fff',
+  lineHeight: 36,
+  marginLeft: 40
+},
 });

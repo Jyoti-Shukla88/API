@@ -22,7 +22,7 @@ export default function App() {
           <AppLoader onFinish={() => setLoaded(true)} />
         ) : (
           <NavigationContainer>
-            <Stack.Navigator initialRouteName="Landing" screenOptions={{ headerShown: true }}>
+            <Stack.Navigator initialRouteName="Landing" screenOptions={{ headerShown: false}}>
               <Stack.Screen name="Landing" component={LandingScreen} options={{ title: 'WHO Toolkit' }} />
               <Stack.Screen name="GuideLinesScreen"  component={GuideLinesScreen} options={{ title: 'Guidelines' }} />
               <Stack.Screen name="TerminologyScreen" component={TerminologyScreen} options={{ title: 'Terminology' }} />
