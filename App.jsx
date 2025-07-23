@@ -18,9 +18,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        {!loaded ? (
-          <AppLoader onFinish={() => setLoaded(true)} />
-        ) : (
+        {loaded ? (
           <NavigationContainer>
             <Stack.Navigator initialRouteName="Landing" screenOptions={{ headerShown: false}}>
               <Stack.Screen name="Landing" component={LandingScreen} options={{ title: 'WHO Toolkit' }} />
@@ -29,6 +27,9 @@ export default function App() {
               <Stack.Screen name="ReportScreen" component={ReportScreen} options={{ title: 'Malaria Report' }} />
             </Stack.Navigator>
           </NavigationContainer>
+        ) : (
+          
+          <AppLoader onFinish={() => setLoaded(true)} />
         )}
       </PersistGate>
     </Provider>

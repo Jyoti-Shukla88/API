@@ -41,7 +41,7 @@ export default function GuideLinesScreen() {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-        <Text style={styles.backText}>← Back to Landing</Text>
+        <Text style={styles.backText}>← Back </Text>
       </TouchableOpacity>
 
       <Text style={styles.heading}>WHO {'\n'}Guidelines</Text>
@@ -100,7 +100,8 @@ const styles = StyleSheet.create({
   },
   backText: { 
     color: '#007AFF', 
-    fontSize: 16 
+    fontSize: 16 ,
+    marginTop: 30,
   },
   listContainer: { 
     paddingBottom: 40 

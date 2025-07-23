@@ -38,7 +38,7 @@ export default function TerminologyScreen() {
     <View style={styles.container}>
       {/* Back Button */}
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-        <Text style={styles.backText}>← Back to Landing</Text>
+        <Text style={styles.backText}>← Back </Text>
       </TouchableOpacity>
 
       {/* Title */}
@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#007AFF',
     fontWeight: '600',
+    marginTop: 30,
   },
 
   // Title

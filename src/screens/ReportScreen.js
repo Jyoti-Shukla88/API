@@ -53,7 +53,8 @@ const styles = StyleSheet.create({
   backText: {
     fontSize: 16,
     color: '#007AFF',
-    fontWeight: '600'
+    fontWeight: '600',
+    marginTop: 30
   },
 
   card: {

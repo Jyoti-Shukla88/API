@@ -1,5 +1,5 @@
 // screens/LandingScreen.js
-import React, { useEffect, useState, useRef } from 'react';
+import React, {  useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -13,13 +13,14 @@ import {
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
-import { FETCH_DATA_REQUEST } from '../redux/slices/dataSlice';
+import { useSelector } from 'react-redux';
 import CustomButton from '../components/CustomButton';
 
-const CARD_WIDTH = Dimensions.get('window').width * 0.82;
-const WINDOW_WIDTH = Dimensions.get('window').width ;
-const WINDOW_HEIGHT = Dimensions.get('window').height;
+
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+const CARD_WIDTH = SCREEN_WIDTH * 0.82;
+//const WINDOW_WIDTH = Dimensions.get('window').width ;
+//const WINDOW_HEIGHT = Dimensions.get('window').height;
 
 const WATERMARK_IMAGE = require('../assets/placeholder/a273co1g-removebg-preview.png');
 
@@ -48,15 +49,10 @@ const SCREEN_CONFIG = [
 ];
 
 export default function LandingScreen() {
-  const dispatch = useDispatch();
   const navigation = useNavigation();
   const { data, loading, error } = useSelector((state) => state.data);
   const [activeIndex, setActiveIndex] = useState(0);
   const flatListRef = useRef();
-
-  useEffect(() => {
-    dispatch(FETCH_DATA_REQUEST());
-  }, [dispatch]);
 
   const enrichedSections =
     Array.isArray(data?.sections) && data.sections.length >= 3
@@ -221,13 +217,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 16,
   },
-  /*btn: {
-    paddingVertical: 10,
-    paddingHorizontal: 100,
-    borderRadius: 22,
-    backgroundColor: '#0F529D',
-    elevation: 2,
-  },*/
   btnText: {
     color: '#fff',
     fontWeight: '700',
@@ -248,8 +237,8 @@ const styles = StyleSheet.create({
   },
   watermark: {
     flex:1,
-    width: WINDOW_WIDTH,   // exact screen width
-    height: WINDOW_HEIGHT,// exact screen height
+    width: SCREEN_WIDTH,  
+    height: SCREEN_HEIGHT,
     alignSelf: 'flex-start'     
     
   },
