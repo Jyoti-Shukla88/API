@@ -33,19 +33,19 @@ function* handleFetchData() {
     const normalizedCachedVersion = String(cachedVersion).trim();
     const normalizedPreloadedVersion = String(preloadedData.version).trim();
 
-    // ✅ First Launch
+    //  First Launch
     if (!isFirstLaunch) {
       yield put(FETCH_DATA_SUCCESS({
         data: preloadedData.data,
         version: preloadedData.version,
       }));
-      console.log('✅ First launch: using preloaded data');
+      console.log('First launch: using preloaded data');
 
       // Cache preloaded data
       yield call(AsyncStorage.setItem, CACHED_DATA_KEY, JSON.stringify(preloadedData));
       yield call(AsyncStorage.setItem, IS_FIRST_LAUNCH_KEY, 'true');
 
-      // 🔁 Compare with server
+      //  Compare with server
       if (normalizedServerVersion !== normalizedPreloadedVersion) {
         try {
           const latestData = yield call(fetchLatestLandingData);
@@ -58,28 +58,28 @@ function* handleFetchData() {
             };
             yield call(AsyncStorage.setItem, CACHED_DATA_KEY, JSON.stringify(payload));
             yield put(FETCH_DATA_SUCCESS(payload));
-            console.log('🌐 Server version newer — updated from preloaded data');
+            console.log('Server version newer — updated from preloaded data');
           } else {
-            console.warn('⚠️ latestData.sections missing or invalid on first launch');
+            console.warn(' latestData.sections missing or invalid on first launch');
             console.warn('[Payload Returned]', JSON.stringify(latestData));
           }
         } catch (err) {
-          console.warn('⚠️ Failed to fetch updated data after preload:', err.message);
+          console.warn(' Failed to fetch updated data after preload:', err.message);
         }
       } else {
-        console.log('✅ Version match — preloaded data is current');
+        console.log(' Version match — preloaded data is current');
       }
 
       return; // ✔ Exit
     }
 
-    // ✅ Subsequent Launch with Cached Data
+    // Subsequent Launch with Cached Data
     if (cached) {
       yield put(FETCH_DATA_SUCCESS({
         data: cached.data,
         version: cached.version,
       }));
-      console.log('🔁 Using cached data');
+      console.log(' Using cached data');
 
       console.log('[DEBUG] Server version:', `"${normalizedServerVersion}"`);
       console.log('[DEBUG] Cached version:', `"${normalizedCachedVersion}"`);
@@ -96,31 +96,31 @@ function* handleFetchData() {
             };
             yield call(AsyncStorage.setItem, CACHED_DATA_KEY, JSON.stringify(payload));
             yield put(FETCH_DATA_SUCCESS(payload));
-            console.log('🌐 Server version newer — updated from cached data');
+            console.log(' Server version newer — updated from cached data');
           } else {
-            console.warn('⚠️ latestData.sections missing or invalid when refreshing cache');
+            console.warn('latestData.sections missing or invalid when refreshing cache');
             console.warn('[Payload Returned]', JSON.stringify(latestData));
           }
         } catch (err) {
-          console.warn('⚠️ Failed to fetch updated data:', err.message);
+          console.warn(' Failed to fetch updated data:', err.message);
         }
       } else {
-        console.log('✅ Version match — no update needed');
+        console.log(' Version match — no update needed');
       }
 
       return; // ✔ Exit
     }
 
-    // ❗ Fallback: No cache found
+    //  Fallback: No cache found
     yield put(FETCH_DATA_SUCCESS({
       data: preloadedData.data,
       version: preloadedData.version,
     }));
     yield call(AsyncStorage.setItem, CACHED_DATA_KEY, JSON.stringify(preloadedData));
-    console.warn('⚠️ No cache found — using bundled preloaded data');
+    console.warn(' No cache found — using bundled preloaded data');
 
   } catch (error) {
-    console.error('❌ Saga Fetch Failed:', error.message);
+    console.error(' Saga Fetch Failed:', error.message);
     yield put(FETCH_DATA_FAILURE({ error: error.message }));
   }
 }
