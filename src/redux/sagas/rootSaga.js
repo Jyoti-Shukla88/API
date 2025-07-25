@@ -9,7 +9,6 @@ import {
   fetchRemoteVersion,
   fetchLatestLandingData,
 } from '../../api/apiService';
-//import preloadedData from '../../assets/preloadedData.json';
 import landing1 from '../../assets/landing1.json';
 import versionEn from '../../assets/versionEn.json';
 const CACHED_DATA_KEY = 'TOOLKIT_DATA';
@@ -135,8 +134,10 @@ return;
       data: preloadedData.data,
       version: preloadedData.version,
     }));
-    yield call(AsyncStorage.setItem, CACHED_DATA_KEY, JSON.stringify(preloadedData));
+
     console.warn(' No cache found — using bundled preloaded data');
+    yield call(AsyncStorage.setItem, CACHED_DATA_KEY, JSON.stringify(preloadedData));
+    
 
   } catch (error) {
     console.error(' Saga Fetch Failed:', error.message);
