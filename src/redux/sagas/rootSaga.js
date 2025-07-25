@@ -9,10 +9,20 @@ import {
   fetchRemoteVersion,
   fetchLatestLandingData,
 } from '../../api/apiService';
-import preloadedData from '../../assets/preloadedData.json';
-
+//import preloadedData from '../../assets/preloadedData.json';
+import landing1 from '../../assets/landing1.json';
+import versionEn from '../../assets/versionEn.json';
 const CACHED_DATA_KEY = 'TOOLKIT_DATA';
 const IS_FIRST_LAUNCH_KEY = 'IS_FIRST_LAUNCH_DONE';
+const PRELOADING_VERSION = '6702';
+
+const preloadedData = {
+  version: PRELOADING_VERSION,
+  data: {
+    ...landing1,
+    ...versionEn,
+  },
+};
 
 function* handleFetchData() {
   try {
