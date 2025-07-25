@@ -51,7 +51,7 @@ function* handleFetchData() {
           const latestData = yield call(fetchLatestLandingData);
           console.log('[DEBUG] Fetched data from server (preloaded context):', latestData);
 
-          if (latestData && Array.isArray(latestData.sections)) {
+          if (latestData && Array.isArray(latestData.en)) {
             const payload = {
               data: latestData,
               version: normalizedServerVersion,
@@ -83,33 +83,70 @@ function* handleFetchData() {
 
       console.log('[DEBUG] Server version:', `"${normalizedServerVersion}"`);
       console.log('[DEBUG] Cached version:', `"${normalizedCachedVersion}"`);
+       
+      // Always fetch latest data even if versions match
+  try {
+    const latestData = yield call(fetchLatestLandingData);
+    const sections = latestData.en;  
+    console.log('[DEBUG] Fetched data from server (cached context):', latestData);
 
-      if (normalizedServerVersion !== normalizedCachedVersion) {
-        try {
-          const latestData = yield call(fetchLatestLandingData);
-          console.log('[DEBUG] Fetched data from server (cached context):', latestData);
-
-          if (latestData && Array.isArray(latestData.sections)) {
-            const payload = {
-              data: latestData,
-              version: normalizedServerVersion,
-            };
-            yield call(AsyncStorage.setItem, CACHED_DATA_KEY, JSON.stringify(payload));
-            yield put(FETCH_DATA_SUCCESS(payload));
-            console.log(' Server version newer — updated from cached data');
-          } else {
-            console.warn('latestData.sections missing or invalid when refreshing cache');
-            console.warn('[Payload Returned]', JSON.stringify(latestData));
-          }
-        } catch (err) {
-          console.warn(' Failed to fetch updated data:', err.message);
-        }
-      } else {
-        console.log(' Version match — no update needed');
+    if (latestData) {
+      if (!Array.isArray(latestData.en)) {
+        console.warn('Warning: latestData.sections missing or not an array, caching anyway');
       }
 
-      return; // ✔ Exit
+      const payload = {
+        data: latestData,
+        version: normalizedServerVersion,
+      };
+
+      // Update cache and Redux state with fresh API data
+      yield call(AsyncStorage.setItem, CACHED_DATA_KEY, JSON.stringify(payload));
+      yield put(FETCH_DATA_SUCCESS(payload));
+      console.log('Updated data from server, cache and redux updated');
+    } else {
+      console.log('Fetched data is empty or invalid');
     }
+  } catch (err) {
+    console.warn('Failed to fetch updated data:', err.message);
+  }
+
+  return; // Exit saga after updates
+}
+      {/*if (normalizedServerVersion !== normalizedCachedVersion) {
+  try {
+    const latestData = yield call(fetchLatestLandingData);
+    console.log('[DEBUG] Fetched data from server (cached context):', latestData);
+
+    // Check if latestData exists (basic check)
+    if (latestData) {
+      if (!Array.isArray(latestData.sections)) {
+        console.warn('Warning: latestData.sections missing or not an array, caching anyway');
+      }
+
+      const payload = {
+        data: latestData,
+        version: normalizedServerVersion,
+      };
+
+      // Update cache with new data regardless of sections presence
+      yield call(AsyncStorage.setItem, CACHED_DATA_KEY, JSON.stringify(payload));
+      yield put(FETCH_DATA_SUCCESS(payload));
+      console.log('Server version newer — updated from cached data');
+    } else {
+      // latestData is empty/falsy
+      console.log('Fetched data is empty or invalid');
+    }
+  } catch (err) {
+    console.warn('Failed to fetch updated data:', err.message);
+  }
+} else {
+  console.log('Version match — no update needed');
+}
+
+return;
+
+    }*/}
 
     //  Fallback: No cache found
     yield put(FETCH_DATA_SUCCESS({

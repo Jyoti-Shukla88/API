@@ -1,24 +1,24 @@
-// src/redux/store.js
 import { configureStore } from '@reduxjs/toolkit';
 const createSagaMiddleware = require('redux-saga').default;
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistStore, persistReducer } from 'redux-persist';
 
-import dataReducer from './slices/dataSlice';
+import rootReducer from './rootReducer';  // import combined root reducer
 import rootSaga from './sagas/rootSaga';
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
+  whitelist: ['data'], // persist only `data` slice
 };
 
 const sagaMiddleware = createSagaMiddleware();
-const persistedReducer = persistReducer(persistConfig, dataReducer);
+console.log('rootReducer:', rootReducer);
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: {
-    data: persistedReducer,
-  },
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: false,
@@ -27,4 +27,5 @@ export const store = configureStore({
 });
 
 sagaMiddleware.run(rootSaga);
+
 export const persistor = persistStore(store);

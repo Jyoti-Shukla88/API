@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 export default function ReportScreen() {
   const navigation = useNavigation();
-  const { data, version } = useSelector(state => state.data);
+  const { data, version, } = useSelector(state => state.data);
 
   const reportSection = data?.sections?.[0];
 

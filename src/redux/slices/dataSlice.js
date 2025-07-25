@@ -2,10 +2,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  version: null,
+  
   data: null,
   loading: false,
   error: null,
+  version: null,
 };
 
 const dataSlice = createSlice({
@@ -20,6 +21,7 @@ const dataSlice = createSlice({
       state.loading = false;
       state.data = action.payload.data;
       state.version = action.payload.version;
+      state.lastUpdated = Date.now();
       state.error = null;
     },
     FETCH_DATA_FAILURE: (state, action) => {
@@ -34,3 +36,4 @@ export const { FETCH_DATA_REQUEST,
   FETCH_DATA_FAILURE 
 } = dataSlice.actions;
 export default dataSlice.reducer;
+

@@ -52,7 +52,7 @@ export default function GuideLinesScreen() {
         contentContainerStyle={styles.listContainer}
         renderItem={({ item }) => (
           <TouchableOpacity style={styles.itemCard} onPress={() => openPDF(item.link)}>
-            <Text style={styles.title}>{item.title}</Text>
+            <Text style={styles.title}>{item.subtitle||item.title||'No title'}</Text>
             <Text style={styles.subtitle}>{item.subtitle|| item.description || 'Tap to open PDF'}</Text>
           </TouchableOpacity>
         )}

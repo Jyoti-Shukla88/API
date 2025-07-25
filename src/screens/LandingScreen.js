@@ -1,5 +1,5 @@
 // screens/LandingScreen.js
-import React, {  useState, useRef } from 'react';
+import React, {  useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -13,9 +13,9 @@ import {
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import CustomButton from '../components/CustomButton';
-
+import { FETCH_DATA_REQUEST } from '../redux/slices/dataSlice';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 const CARD_WIDTH = SCREEN_WIDTH * 0.82;
@@ -26,44 +26,59 @@ const WATERMARK_IMAGE = require('../assets/placeholder/a273co1g-removebg-preview
 
 const SCREEN_CONFIG = [
   {
-    key: 'report',
+    key: '1',
     screen: 'ReportScreen',
-    text: 'World malaria report 2024',
-    image: 'https://tse4.mm.bing.net/th/id/OIP.mR9-Gdc0XOf5TQ4Rm0g00AHaKf',
+    
     color: '#0F529D',
   },
   {
-    key: 'guidelines',
+    key: '2',
     screen: 'GuideLinesScreen',
-    text: 'WHO guidelines',
-    image: 'https://tse4.mm.bing.net/th/id/OIP.Ms3z6L-wJi7s0s695Ce-ngHaKd',
+    
     color: '#ea6d14ff',
   },
   {
-    key: 'terminology',
+    key: '3',
     screen: 'TerminologyScreen',
-    text: 'WHO malaria terminology',
-    image: 'https://iris.who.int/bitstream/handle/10665/349442/9789240038400-eng.pdf.jpg',
+    
     color: '#36cc8eff',
   },
 ];
 
 export default function LandingScreen() {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const { data, loading, error } = useSelector((state) => state.data);
   const [activeIndex, setActiveIndex] = useState(0);
   const flatListRef = useRef();
+  const [language, setLanguage] = useState('en');
+  useEffect(() => {
+    console.log('Dispatching FETCH_DATA_REQUEST');
+    dispatch(FETCH_DATA_REQUEST());
+  }, [dispatch]);
+const languageData = data?.[language] ?? [];
 
   const enrichedSections =
-    Array.isArray(data?.sections) && data.sections.length >= 3
-      ? data.sections.map((item, i) => ({
-          ...item,
-          ...SCREEN_CONFIG[i],
-        }))
+    Array.isArray(languageData) ?
+     languageData.map((item) => {
+        const config = SCREEN_CONFIG.find(conf => conf.key === item.id);
+        return {
+            key: item.id,
+            title: item.title,
+            description: item.description,
+            image: item.img,
+            screen: config?.screen || 'ReportScreen', // fallback
+            color: config?.color || '#0F529D',
+          };
+        })
+        
       : SCREEN_CONFIG.map((conf) => ({
-          ...conf,
-          title: conf.text,
-          
+        key: conf.key,
+          title: conf.title || 'Default',
+          description: '',
+          image: null,
+          screen: conf.screen,
+          color: conf.color,
         }));
 
   if (loading) {
@@ -82,12 +97,17 @@ export default function LandingScreen() {
       </View>
     );
   }
+console.log('Redux data:', data);
+console.log('Enriched Sections:', enrichedSections);
+enrichedSections.forEach((item, idx) => {
+  console.log(`Item ${idx} - id: ${item.key}, title: ${item.title}, image present: ${!!item.image}`);
+});
 
   return (
     <View
       style={[
         styles.container,
-        { backgroundColor: enrichedSections[activeIndex]?.color || '#0F529D' },
+        { backgroundColor: SCREEN_CONFIG[activeIndex]?.color || '#0F529D' },
       ]}
     >
     
@@ -111,17 +131,19 @@ export default function LandingScreen() {
 
       {/* Animated Lang Select */}
       <Animatable.View animation="fadeInDown" delay={200} duration={800}>
-        <TouchableOpacity style={styles.langSelect}>
-          <Text style={styles.langText}>🌍 English ▼</Text>
+        <TouchableOpacity
+          onPress={() => setLanguage(prev => (prev === 'en' ? 'fr' : 'en'))}
+          style={styles.langSelect}
+        >
+          <Text style={styles.langText}>{language === 'en' ? '🌍 English ▼' : '🌍 Français ▼'}</Text>
         </TouchableOpacity>
       </Animatable.View>
-
       {/* FlatList with animated cards */}
       <FlatList
         ref={flatListRef}
         horizontal
         data={enrichedSections}
-        keyExtractor={(item, idx) => item.key || idx.toString()}
+        keyExtractor={(item) => item.key.toString()}
         showsHorizontalScrollIndicator={false}
         snapToInterval={CARD_WIDTH + 24 }
         decelerationRate="fast"
@@ -142,7 +164,15 @@ export default function LandingScreen() {
             useNativeDriver
             style={[styles.card, { backgroundColor: '#fff' }]}
           >
-            <Image source={{ uri: item.image }} style={styles.cardImage} />
+            {item.image ? (
+              <Image source={{ uri: item.image }} style={styles.cardImage} />
+            ) : (
+              <View style={[styles.cardImage, {backgroundColor: '#ccc', justifyContent: 'center', alignItems: 'center'}]}>
+                <Text>No Image</Text>
+              </View>
+            )}
+
+            {/*<Image source={{ uri: item.image }} style={styles.cardImage} />*/}
             <Text style={styles.title}>{item.title || item.text}</Text>
             
             <CustomButton
