@@ -83,15 +83,15 @@ function* handleFetchData() {
 
       console.log('[DEBUG] Server version:', `"${normalizedServerVersion}"`);
       console.log('[DEBUG] Cached version:', `"${normalizedCachedVersion}"`);
-       
-      // Always fetch latest data even if versions match
+  
+  if (normalizedServerVersion !== normalizedCachedVersion) {
   try {
     const latestData = yield call(fetchLatestLandingData);
-    const sections = latestData.en;  
     console.log('[DEBUG] Fetched data from server (cached context):', latestData);
 
+    // Check if latestData exists (basic check)
     if (latestData) {
-      if (!Array.isArray(latestData.en)) {
+      if (!Array.isArray(latestData.sections)) {
         console.warn('Warning: latestData.sections missing or not an array, caching anyway');
       }
 
@@ -100,20 +100,24 @@ function* handleFetchData() {
         version: normalizedServerVersion,
       };
 
-      // Update cache and Redux state with fresh API data
+      // Update cache with new data regardless of sections presence
       yield call(AsyncStorage.setItem, CACHED_DATA_KEY, JSON.stringify(payload));
       yield put(FETCH_DATA_SUCCESS(payload));
-      console.log('Updated data from server, cache and redux updated');
+      console.log('Server version newer — updated from cached data');
     } else {
+      // latestData is empty/falsy
       console.log('Fetched data is empty or invalid');
     }
   } catch (err) {
     console.warn('Failed to fetch updated data:', err.message);
   }
-
-  return; // Exit saga after updates
+} else {
+  console.log('Version match — no update needed');
 }
-      
+
+return;
+
+    }
 
     //  Fallback: No cache found
     yield put(FETCH_DATA_SUCCESS({
