@@ -16,9 +16,19 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch,useSelector } from 'react-redux';
 import CustomButton from '../components/CustomButton';
 import { FETCH_DATA_REQUEST } from '../redux/slices/dataSlice';
+import landing1 from '../assets/landing1.json';
+import versionEn from '../assets/versionEn.json';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 const CARD_WIDTH = SCREEN_WIDTH * 0.82;
+const PRELOADING_VERSION = '6702';
+const preloadedData = {
+  version: PRELOADING_VERSION,
+  data: {
+    ...landing1,
+    ...versionEn,
+  },
+};
 //const WINDOW_WIDTH = Dimensions.get('window').width ;
 //const WINDOW_HEIGHT = Dimensions.get('window').height;
 
@@ -58,9 +68,15 @@ export default function LandingScreen() {
   }, [dispatch]);
 const languageData = data?.[language] ?? [];
 
+const localLanguageData = preloadedData?.[language] ?? [];
+const effectiveData =
+    Array.isArray(languageData) && languageData.length > 0
+      ? languageData
+      : localLanguageData;
+
   const enrichedSections =
-    Array.isArray(languageData) ?
-     languageData.map((item) => {
+   Array.isArray(effectiveData) && effectiveData.length > 0
+      ? effectiveData.map((item) => {
         const config = SCREEN_CONFIG.find(conf => conf.key === item.id);
         return {
             key: item.id,
