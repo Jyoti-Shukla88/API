@@ -66,6 +66,7 @@ export default function LandingScreen() {
     console.log('Dispatching FETCH_DATA_REQUEST');
     dispatch(FETCH_DATA_REQUEST());
   }, [dispatch]);
+  
 const languageData = data?.[language] ?? [];
 
 const localLanguageData = preloadedData?.[language] ?? [];
@@ -247,6 +248,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 12,
     resizeMode: 'cover',
+    marginLeft:8,
   },
   title: {
     fontSize:35,
