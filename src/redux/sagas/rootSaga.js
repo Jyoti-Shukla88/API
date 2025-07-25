@@ -75,12 +75,12 @@ function* handleFetchData() {
 
     // Subsequent Launch with Cached Data
     if (cached) {
-      console.log("First launch or no cached data found, using preloaded data.");
+      console.log("Cached data found, using cached data.");
       yield put(FETCH_DATA_SUCCESS({
         data: cached.data,
         version: cached.version,
       }));
-      console.log(' Using cached data');
+      
 
       console.log('[DEBUG] Server version:', `"${normalizedServerVersion}"`);
       console.log('[DEBUG] Cached version:', `"${normalizedCachedVersion}"`);
