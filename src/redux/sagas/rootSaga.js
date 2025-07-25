@@ -113,40 +113,7 @@ function* handleFetchData() {
 
   return; // Exit saga after updates
 }
-      {/*if (normalizedServerVersion !== normalizedCachedVersion) {
-  try {
-    const latestData = yield call(fetchLatestLandingData);
-    console.log('[DEBUG] Fetched data from server (cached context):', latestData);
-
-    // Check if latestData exists (basic check)
-    if (latestData) {
-      if (!Array.isArray(latestData.sections)) {
-        console.warn('Warning: latestData.sections missing or not an array, caching anyway');
-      }
-
-      const payload = {
-        data: latestData,
-        version: normalizedServerVersion,
-      };
-
-      // Update cache with new data regardless of sections presence
-      yield call(AsyncStorage.setItem, CACHED_DATA_KEY, JSON.stringify(payload));
-      yield put(FETCH_DATA_SUCCESS(payload));
-      console.log('Server version newer — updated from cached data');
-    } else {
-      // latestData is empty/falsy
-      console.log('Fetched data is empty or invalid');
-    }
-  } catch (err) {
-    console.warn('Failed to fetch updated data:', err.message);
-  }
-} else {
-  console.log('Version match — no update needed');
-}
-
-return;
-
-    }*/}
+      
 
     //  Fallback: No cache found
     yield put(FETCH_DATA_SUCCESS({
