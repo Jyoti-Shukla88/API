@@ -140,7 +140,7 @@ enrichedSections.forEach((item, idx) => {
         duration={800}
         style={styles.header}
       >
-        <Text style={styles.headerLine1}>👩‍⚕️ WHO Malaria</Text>
+        <Text style={styles.headerLine1}>WHO Malaria</Text>
         <Text style={styles.headerLine2}>Toolkit</Text>
        
       </Animatable.View>
@@ -151,7 +151,7 @@ enrichedSections.forEach((item, idx) => {
           onPress={() => setLanguage(prev => (prev === 'en' ? 'fr' : 'en'))}
           style={styles.langSelect}
         >
-          <Text style={styles.langText}>{language === 'en' ? '🌍 English ▼' : '🌍 Français ▼'}</Text>
+          <Text style={styles.langText}>{language === 'en' ? 'English ▼' : ' Français ▼'}</Text>
         </TouchableOpacity>
       </Animatable.View>
       {/* FlatList with animated cards */}
@@ -227,18 +227,20 @@ const styles = StyleSheet.create({
   },
 
   langSelect: {
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF 20%',
     alignSelf: 'flex-start',
-    marginLeft: 58,
+    marginLeft: 25,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 16,
     marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#CCCCCC', 
   },
 
   langText: { 
     fontSize: 14, 
-    color: '#333', 
+    color: '#FFFFFF', 
     fontWeight: '500' 
   },
 
@@ -320,6 +322,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#fff',
     lineHeight: 36,
+    marginLeft:8,
   },
 
 headerLine2: {
@@ -327,6 +330,6 @@ headerLine2: {
     fontWeight: '700',
     color: '#fff',
     lineHeight: 36,
-    marginLeft: 40
+    marginLeft: 8
   },
 });

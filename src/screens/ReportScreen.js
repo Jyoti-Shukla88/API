@@ -36,12 +36,12 @@ export default function ReportScreen() {
       {/* Download Button */}
       {!!reportSection?.link && (
         <TouchableOpacity style={styles.downloadBtn} onPress={handleDownload}>
-          <Text style={styles.downloadText}>📥 Download Full Report</Text>
+          <Text style={styles.downloadText}>Download Full Report</Text>
         </TouchableOpacity>
       )}
 
       {/* Footer */}
-      <Text style={styles.versionText}>📌 Version: {version || 'N/A'}</Text>
+      <Text style={styles.versionText}>Version: {version || 'N/A'}</Text>
     </ScrollView>
   );
 }

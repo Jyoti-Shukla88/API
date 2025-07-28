@@ -42,7 +42,7 @@ export default function TerminologyScreen() {
       </TouchableOpacity>
 
       {/* Title */}
-      <Text style={styles.header}>🩸 Malaria Glossary</Text>
+      <Text style={styles.header}>Malaria Glossary</Text>
 
       {/* Terms List */}
       <FlatList
