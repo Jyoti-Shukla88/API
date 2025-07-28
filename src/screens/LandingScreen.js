@@ -18,21 +18,16 @@ import CustomButton from '../components/CustomButton';
 import { FETCH_DATA_REQUEST } from '../redux/slices/dataSlice';
 import landing1 from '../assets/landing1.json';
 import versionEn from '../assets/versionEn.json';
+import ChevronRight from '../assets/placeholder/chevron_right.svg';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 const CARD_WIDTH = SCREEN_WIDTH * 0.82;
-const PRELOADING_VERSION = '6702';
 const preloadedData = {
-  version: PRELOADING_VERSION,
-  data: {
-    ...landing1,
-    ...versionEn,
-  },
+  landingData: landing1,
+  versionEnData: versionEn,
 };
-//const WINDOW_WIDTH = Dimensions.get('window').width ;
-//const WINDOW_HEIGHT = Dimensions.get('window').height;
 
-const WATERMARK_IMAGE = require('../assets/placeholder/a273co1g-removebg-preview.png');
+const WATERMARK_IMAGE = require('../assets/placeholder/landing_bg.png');
 
 const SCREEN_CONFIG = [
   {
@@ -51,7 +46,7 @@ const SCREEN_CONFIG = [
     key: '3',
     screen: 'TerminologyScreen',
     
-    color: '#36cc8eff',
+    color: '#1f845aff',
   },
 ];
 
@@ -68,8 +63,11 @@ export default function LandingScreen() {
   }, [dispatch]);
   
 const languageData = data?.[language] ?? [];
+// fallback to preloaded json data depending on language
+  const localLanguageData =
+    language === 'en' ? preloadedData.versionEnData : preloadedData.landingData;
 
-const localLanguageData = preloadedData?.[language] ?? [];
+//const localLanguageData = preloadedData?.[language] ?? [];
 const effectiveData =
     Array.isArray(languageData) && languageData.length > 0
       ? languageData
@@ -130,7 +128,8 @@ enrichedSections.forEach((item, idx) => {
     
       <ImageBackground
         source={WATERMARK_IMAGE}
-        style={[styles.watermark, { opacity: 0.5}]}
+        style={styles.watermark}
+      
         resizeMode="cover"
       />
 
@@ -188,9 +187,12 @@ enrichedSections.forEach((item, idx) => {
                 <Text>No Image</Text>
               </View>
             )}
-
-            {/*<Image source={{ uri: item.image }} style={styles.cardImage} />*/}
-            <Text style={styles.title}>{item.title || item.text}</Text>
+              <View style={styles.titleRow}>
+                <Text style={styles.title}>{item.title || item.text}</Text>
+                <ChevronRight width={24} height={24} style={styles.chevronIcon} />
+              </View>
+            {/*<Image source={{ uri: item.image }} style={styles.cardImage} />
+            <Text style={styles.title}>{item.title || item.text}</Text>*/}
             
             <CustomButton
                 title="Explore"
@@ -216,6 +218,20 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     
   },
+   titleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    marginBottom: 10,
+   
+    
+  },
+
+  chevronIcon: {
+    marginLeft: 8,
+  },
+
   langSelect: {
     backgroundColor: '#fff',
     alignSelf: 'flex-start',
@@ -231,7 +247,7 @@ const styles = StyleSheet.create({
   borderRadius: 20,
   marginRight: 24,
   paddingVertical: 30,
-  paddingHorizontal: 10,
+  paddingHorizontal: 16,
   alignItems: 'flex-start',
   backgroundColor: '#fff',
   elevation: 4,
@@ -240,15 +256,17 @@ const styles = StyleSheet.create({
   shadowOffset: { width: 0, height: 3 },
   shadowRadius: 6,
   marginBottom: 25,
+  
 },
 
   cardImage: {
     width: 300,
     height: 400,
-    borderRadius: 8,
+    borderRadius: 20,
     marginBottom: 12,
     resizeMode: 'cover',
-    marginLeft:8,
+    marginLeft:4,
+    //marginRight: 
   },
   title: {
     fontSize:35,
@@ -256,7 +274,8 @@ const styles = StyleSheet.create({
     color: '#000',
     textAlign: 'left',
     marginBottom: 10,
-    marginLeft: 0,
+    marginLeft: 8,
+    flexShrink: 1,
     
   },
   desc: {
@@ -287,7 +306,10 @@ const styles = StyleSheet.create({
     flex:1,
     width: SCREEN_WIDTH,  
     height: SCREEN_HEIGHT,
-    alignSelf: 'flex-start'     
+    alignSelf: 'flex-start' , 
+    opacity: '5%',  
+    top : 0,
+    left: 0,
     
   },
   headerLine1: {
