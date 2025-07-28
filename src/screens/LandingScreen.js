@@ -191,9 +191,6 @@ enrichedSections.forEach((item, idx) => {
                 <Text style={styles.title}>{item.title || item.text}</Text>
                 <ChevronRight width={24} height={24} style={styles.chevronIcon} />
               </View>
-            {/*<Image source={{ uri: item.image }} style={styles.cardImage} />
-            <Text style={styles.title}>{item.title || item.text}</Text>*/}
-            
             <CustomButton
                 title="Explore"
                 backgroundColor={item.color || '#0F529D'}
@@ -211,21 +208,18 @@ const styles = StyleSheet.create({
     flex: 1,
    
   },
-  header: {
-    
+  header: { 
     marginTop: 50,
     marginLeft: 16,
-    marginBottom: 8,
-    
+    marginBottom: 8, 
   },
+
    titleRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    marginBottom: 10,
-   
-    
+    marginBottom: 10,  
   },
 
   chevronIcon: {
@@ -241,7 +235,13 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginBottom: 16,
   },
-  langText: { fontSize: 14, color: '#333', fontWeight: '500' },
+
+  langText: { 
+    fontSize: 14, 
+    color: '#333', 
+    fontWeight: '500' 
+  },
+
   card: {
   width: CARD_WIDTH,
   borderRadius: 20,
@@ -255,8 +255,7 @@ const styles = StyleSheet.create({
   shadowOpacity: 0.15,
   shadowOffset: { width: 0, height: 3 },
   shadowRadius: 6,
-  marginBottom: 25,
-  
+  marginBottom: 25, 
 },
 
   cardImage: {
@@ -266,8 +265,8 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     resizeMode: 'cover',
     marginLeft:4,
-    //marginRight: 
   },
+
   title: {
     fontSize:35,
     fontWeight: 'bold',
@@ -276,14 +275,15 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginLeft: 8,
     flexShrink: 1,
-    
   },
+
   desc: {
     fontSize: 14,
     color: '#444',
     textAlign: 'center',
     marginBottom: 16,
   },
+
   btnText: {
     color: '#fff',
     fontWeight: '700',
@@ -291,17 +291,20 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     textAlign: 'center',
   },
+
   centered: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
+
   emptyText: {
     fontSize: 16,
     color: '#fff',
     textAlign: 'center',
     marginTop: 40,
   },
+
   watermark: {
     flex:1,
     width: SCREEN_WIDTH,  
@@ -310,19 +313,20 @@ const styles = StyleSheet.create({
     opacity: '5%',  
     top : 0,
     left: 0,
-    
   },
+
   headerLine1: {
-  fontSize: 28,
-  fontWeight: '700',
-  color: '#fff',
-  lineHeight: 36,
-},
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#fff',
+    lineHeight: 36,
+  },
+
 headerLine2: {
-  fontSize: 28,
-  fontWeight: '700',
-  color: '#fff',
-  lineHeight: 36,
-  marginLeft: 40
-},
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#fff',
+    lineHeight: 36,
+    marginLeft: 40
+  },
 });
