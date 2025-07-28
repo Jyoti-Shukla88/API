@@ -21,7 +21,7 @@ import versionEn from '../assets/versionEn.json';
 import ChevronRight from '../assets/placeholder/chevron_right.svg';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
-const CARD_WIDTH = SCREEN_WIDTH * 0.82;
+const CARD_WIDTH = SCREEN_WIDTH * 0.72;
 const preloadedData = {
   landingData: landing1,
   versionEnData: versionEn,
@@ -161,7 +161,7 @@ enrichedSections.forEach((item, idx) => {
         data={enrichedSections}
         keyExtractor={(item) => item.key.toString()}
         showsHorizontalScrollIndicator={false}
-        snapToInterval={CARD_WIDTH + 24 }
+        snapToInterval={CARD_WIDTH }
         decelerationRate="fast"
         contentContainerStyle={{ paddingHorizontal: 16 }}
         onMomentumScrollEnd={(event) => {
@@ -286,15 +286,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 16,
   },
-
-  btnText: {
-    color: '#fff',
-    fontWeight: '700',
-    fontSize: 14,
-    textTransform: 'uppercase',
-    textAlign: 'center',
-  },
-
   centered: {
     flex: 1,
     alignItems: 'center',

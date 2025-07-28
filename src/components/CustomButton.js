@@ -16,7 +16,7 @@ export default function CustomButton({ onPress, title, backgroundColor }) {
 
 const styles = StyleSheet.create({
   wrapper: {
-    width: 310,               // Increased width
+    width: 280,               // Increased width
     height: 35, 
     borderRadius: 22,
     alignSelf: 'center',
@@ -26,5 +26,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     overflow: 'hidden',
+    
   },
 });
