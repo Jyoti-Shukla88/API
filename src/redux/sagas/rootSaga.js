@@ -13,7 +13,7 @@ import landing1 from '../../assets/landing1.json';
 import versionEn from '../../assets/versionEn.json';
 const CACHED_DATA_KEY = 'TOOLKIT_DATA';
 const IS_FIRST_LAUNCH_KEY = 'IS_FIRST_LAUNCH_DONE';
-const PRELOADING_VERSION = '6702';
+/*const PRELOADING_VERSION = '6702';
 
 const preloadedData = {
   version: PRELOADING_VERSION,
@@ -21,8 +21,11 @@ const preloadedData = {
     ...landing1,
     ...versionEn,
   },
+};*/
+const preloadedData = {
+  landingData: landing1,
+  versionEnData: versionEn,
 };
-
 function* handleFetchData() {
   try {
     const isFirstLaunch = yield call(AsyncStorage.getItem, IS_FIRST_LAUNCH_KEY);
