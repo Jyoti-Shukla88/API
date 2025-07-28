@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
   },
 
   langSelect: {
-    backgroundColor: '#FFFFFF 20%',
+    backgroundColor: 'rgba(255,255,255,0.2)',
     alignSelf: 'flex-start',
     marginLeft: 25,
     paddingHorizontal: 12,
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: '#CCCCCC', 
+    borderColor: 'rgba(255,255,255,0.4)', 
   },
 
   langText: { 
@@ -257,16 +257,16 @@ const styles = StyleSheet.create({
   shadowOpacity: 0.15,
   shadowOffset: { width: 0, height: 3 },
   shadowRadius: 6,
-  marginBottom: 25, 
+  marginBottom: 80, 
 },
 
   cardImage: {
-    width: 300,
+    width: '100%',
     height: 400,
     borderRadius: 20,
     marginBottom: 12,
     resizeMode: 'cover',
-    marginLeft:4,
+    marginLeft:0,
   },
 
   title: {
@@ -277,6 +277,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginLeft: 8,
     flexShrink: 1,
+    flexWrap: 'wrap', 
   },
 
   desc: {
@@ -308,7 +309,7 @@ const styles = StyleSheet.create({
   },
 
   watermark: {
-    flex:1,
+    position: 'absolute',
     width: SCREEN_WIDTH,  
     height: SCREEN_HEIGHT,
     alignSelf: 'flex-start' , 
@@ -318,18 +319,18 @@ const styles = StyleSheet.create({
   },
 
   headerLine1: {
-    fontSize: 28,
+    fontSize: 40,
     fontWeight: '700',
     color: '#fff',
-    lineHeight: 36,
+    lineHeight: '110%',
     marginLeft:8,
   },
 
 headerLine2: {
-    fontSize: 28,
+    fontSize: 40,
     fontWeight: '700',
     color: '#fff',
-    lineHeight: 36,
+    lineHeight: '110%',
     marginLeft: 8
   },
 });
